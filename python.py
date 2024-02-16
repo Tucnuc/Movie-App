@@ -2,11 +2,13 @@ import time
 import random
 
 # Listy jako vždy
-loc = ["menu"]
+loc = []
 sluzby = ("Dostupné filmy", "Detaily filmů", "Doporučit film")
 
 # Proměnné
 alfa = 62
+vybranyFilm = ""
+vybranaZprava = ""
 oddelovac = "=" * alfa
 
 # Textové funkce
@@ -76,23 +78,22 @@ filmy = {
 
 
 # Úvod
-# jmeno = postInput("Zadejte prosím vaše jméno: ")
-jmeno = "Adam"
-# time.sleep(0.5)
-# postText2("Zpracovávám")
-# time.sleep(0.2)
-# postText("...",0.3)
-# time.sleep(0.5)
-# print("")
-# postText2("\033[1mPŘÍSTUP\033[0m",0.05)
-# time.sleep(0.2)
-# postText("\033[1m POVOLEN\033[0m",0.05)
-# time.sleep(0.5)
-# print("")
-# postText(f"Zdravíme vás, \033[1m{jmeno}\033[0m.")
-# time.sleep(1)
-# print("")
-# loc.append("menu")
+jmeno = postInput("Zadejte prosím vaše uživatelské jméno: ")
+time.sleep(0.5)
+postText2("Zpracovávám")
+time.sleep(0.2)
+postText("...",0.3)
+time.sleep(0.5)
+print("")
+postText2("\033[1mPŘÍSTUP\033[0m",0.05)
+time.sleep(0.2)
+postText("\033[1m POVOLEN\033[0m",0.05)
+time.sleep(0.5)
+print("")
+postText(f"Zdravíme vás, \033[1m{jmeno}\033[0m.")
+time.sleep(1)
+print("")
+loc.append("menu")
 
 
 while True:
@@ -201,14 +202,54 @@ while True:
 
     # Služba na doporučení filmu
     if "doporuceni" in loc:
-        print("cs3")
-        break
+        def filmecek(min=1, max=len(filmy)):
+            global vybranyFilm
+            randomFilm = random.randint(min,max)
+            if randomFilm == 1:
+                vybranyFilm = film_1["Jméno"]
+            elif randomFilm == 2:
+                vybranyFilm = film_2["Jméno"]
+            elif randomFilm == 3:
+                vybranyFilm = film_3["Jméno"]
+            else:
+                vybranyFilm = film_4["Jméno"]
+        def zpravicka(min2=1, max2=5):
+            global vybranaZprava
+            randomZprava = random.randint(min2,max2)
+            if randomZprava == 1:
+                vybranaZprava = "skvělého hodnocení"
+            elif randomZprava == 2:
+                vybranaZprava = "typického roku vydání"
+            elif randomZprava == 3:
+                vybranaZprava = "excelentního režisérovy"
+            elif randomZprava == 4:
+                vybranaZprava = "krátké stopáži"
+            else:
+                vybranaZprava = "vynikajících hercům"
+
+        filmecek()
+        zpravicka()
+        postText2("Vybíráme film")
+        time.sleep(0.2)
+        postText("...")
+        time.sleep(0.5)
+        print("")
+        postText2("Po důkladném vybírání vám doporučujeme")
+        time.sleep(0.3)
+        postText2(" . . . ")
+        time.sleep(0.3)
+        postText(f"film, \033[1m{vybranyFilm}\033[0m.")
+        postText(f"Film byl vybrán na základě jeho \033[1m{vybranaZprava}\033[0m.")
+        time.sleep(1)
+        print("")
+        loc.clear()
+        loc.append("end")
 
 
     # Jiná služba nebo ukončení?
     if "end" in loc:
         while True:
-            beta = postInput("Chcete aplikaci ukončit nebo vybrat jinou šlužbu? \033[1m[1 - jiná služba, 2 - ukončení]\033[0m: ", 0.03)
+            beta = postInput("Chcete aplikaci ukončit nebo vybrat další šlužbu? \033[1m[1 - další služba, 2 - ukončení]\033[0m: ", 0.03)
             time.sleep(0.5)
             print("")
             if beta == "1":
